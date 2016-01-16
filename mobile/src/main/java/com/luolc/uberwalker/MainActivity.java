@@ -1,5 +1,6 @@
 package com.luolc.uberwalker;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -63,8 +65,24 @@ public class MainActivity extends AppCompatActivity {
 
 
                // 授权WebView
+        // 授权WebView的Dialog
         if (!isUserExist()) {
-            startActivity(new Intent(this, AuthActivity.class));
+            new AlertDialog.Builder(this)
+                    .setTitle("请求授权")
+                    .setMessage("当前尚未绑定Uber账户，点击确认以获得授权许可，或取消以推出程序。")
+                    .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(getApplicationContext(), AuthActivity.class));
+                        }
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }).show();
+
         }
         initViews();
 
@@ -74,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
 
         //查找当前显示的Fragment
-        mCurrentFragment = (ContentFragment) fm.findFragmentByTag(mTitle);
+        mCurrentFragment = fm.findFragmentByTag(mTitle);
 
         if (mCurrentFragment == null) {
             mCurrentFragment = MainFragment.newInstance(mTitle);
@@ -178,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean isUserExist() {
+        Log.v(TAG, "UID: " + mUserManager.getUid());
         if ("".equals(mUserManager.getUid())) {
             return false;
         }
