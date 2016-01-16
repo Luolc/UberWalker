@@ -52,20 +52,21 @@ public class ApiManager {
      * 构造接口地址
      * @return 接口地址
      */
-    private String buildUrl() {
-        String url = PROTOCOL + "://" + DOMAIN + "/";
+    private String buildUrl(String method) {
+        String url = PROTOCOL + "://" + DOMAIN + "/" + method;
         Log.v(TAG, "request url= " + url);
         return url;
     }
 
     /**
      * GET访问接口
+     * @param method 接口方法
      * @param params GET的参数
      * @param listener 成功时回调
      * @param errorListener 失败时回调
      */
-    public void get(final ArrayList<Parameter> params, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-        String url = buildUrl();
+    public void get(String method, final ArrayList<Parameter> params, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+        String url = buildUrl(method);
         StringRequest stringRequest = new StringRequest(url, listener, errorListener) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
@@ -84,12 +85,13 @@ public class ApiManager {
 
     /**
      * POST访问接口
+     * @param method 接口方法
      * @param params POST的参数
      * @param listener 成功时回调
      * @param errorListener 失败时回调
      */
-    public void post(final ArrayList<Parameter> params, Response.Listener<String> listener, Response.ErrorListener errorListener) {
-        String url = buildUrl();
+    public void post(String method, final ArrayList<Parameter> params, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+        String url = buildUrl(method);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, listener, errorListener) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {

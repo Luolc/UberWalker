@@ -14,20 +14,16 @@ import android.view.Gravity;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
+    private static final String KEY_TITLLE = "key_title";
 
     private ActionBarDrawerToggle mActionBarDrawerToggle;
-
     private DrawerLayout mDrawerLayout;
-
     private Toolbar mToolbar;
-
     private LeftMenuFragment mLeftMenuFragment;
     private ContentFragment mCurrentFragment;
 
     private String mTitle;
-
-    private static final String TAG = "com.zhy.toolbar";
-    private static final String KEY_TITLLE = "key_title";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         restoreTitle(savedInstanceState);
 
         FragmentManager fm = getSupportFragmentManager();
+
         //查找当前显示的Fragment
         mCurrentFragment = (ContentFragment) fm.findFragmentByTag(mTitle);
 
@@ -152,7 +149,5 @@ public class MainActivity extends AppCompatActivity {
                 mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mActionBarDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
-
-
     }
 }

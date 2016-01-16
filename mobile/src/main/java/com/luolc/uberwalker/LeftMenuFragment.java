@@ -13,7 +13,9 @@ import android.widget.ListView;
  */
 public class LeftMenuFragment extends ListFragment {
 
-    private static final int SIZE_MENU_ITEM = 3;
+    private static final String itemsArray[] = {"Uber Walker", "修改预算", "完成度", "设置", "注销"};
+
+    private static final int SIZE_MENU_ITEM = 5;
 
     private MenuItem[] mItems = new MenuItem[SIZE_MENU_ITEM];
 
@@ -29,14 +31,15 @@ public class LeftMenuFragment extends ListFragment {
 
         MenuItem menuItem;
         for (int i = 0; i < SIZE_MENU_ITEM; i++) {
-            menuItem = new MenuItem("test", false);
+            menuItem = new MenuItem(itemsArray[i], false);
             mItems[i] = menuItem;
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View rootView = inflater.inflate(R.layout.fregment_left_menu, container, false);
+        return rootView;
     }
 
     @Override
