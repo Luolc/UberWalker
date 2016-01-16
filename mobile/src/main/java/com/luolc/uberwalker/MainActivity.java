@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import com.avos.avoscloud.*;
+import com.avos.avospush.*;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -43,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
         mUserManager = new UserManager(this);
 
         initToolBar();
+
+        AVOSCloud.initialize(this, "do4K7UeJcyGgwQ5mdeW4ep07-gzGzoHsz", "5bv5WWc0LuplJbEoadg4TmLH");
+        // AVAnalytics.trackAppOpened(getIntent());
+
+        AVInstallation.getCurrentInstallation().saveInBackground();
+        PushService.setDefaultPushCallback(this, MainActivity.class);
 
         // 授权WebView的Dialog
         if (!isUserExist()) {
