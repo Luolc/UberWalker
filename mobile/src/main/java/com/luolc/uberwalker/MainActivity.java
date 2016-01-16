@@ -1,52 +1,158 @@
 package com.luolc.uberwalker;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.text.TextUtils;
+import android.view.Gravity;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ActionBarDrawerToggle mActionBarDrawerToggle;
+
+    private DrawerLayout mDrawerLayout;
+
+    private Toolbar mToolbar;
+
+    private LeftMenuFragment mLeftMenuFragment;
+    private ContentFragment mCurrentFragment;
+
+    private String mTitle;
+
+    private static final String TAG = "com.zhy.toolbar";
+    private static final String KEY_TITLLE = "key_title";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-    }
+        initToolBar();
+        initViews();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+        //恢复title
+        restoreTitle(savedInstanceState);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        FragmentManager fm = getSupportFragmentManager();
+        //查找当前显示的Fragment
+        mCurrentFragment = (ContentFragment) fm.findFragmentByTag(mTitle);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (mCurrentFragment == null) {
+            mCurrentFragment = ContentFragment.newInstance(mTitle);
+            fm.beginTransaction().add(R.id.content_container, mCurrentFragment, mTitle).commit();
         }
 
-        return super.onOptionsItemSelected(item);
+        mLeftMenuFragment = (LeftMenuFragment) fm.findFragmentById(R.id.left_menu_container);
+        if (mLeftMenuFragment == null) {
+            mLeftMenuFragment = new LeftMenuFragment();
+            fm.beginTransaction().add(R.id.left_menu_container, mLeftMenuFragment).commit();
+        }
+
+        //隐藏别的Fragment，如果存在的话
+        List<Fragment> fragments = fm.getFragments();
+        if (fragments != null)
+
+            for (Fragment fragment : fragments) {
+                if (fragment == mCurrentFragment || fragment == mLeftMenuFragment) continue;
+                fm.beginTransaction().hide(fragment).commit();
+            }
+
+        //设置MenuItem的选择回调
+        mLeftMenuFragment.setOnMenuItemSelectedListener(new LeftMenuFragment.OnMenuItemSelectedListener() {
+            @Override
+            public void menuItemSelected(String title) {
+
+                FragmentManager fm = getSupportFragmentManager();
+                ContentFragment fragment = (ContentFragment) getSupportFragmentManager().findFragmentByTag(title);
+                if (fragment == mCurrentFragment) {
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                    return;
+                }
+
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.hide(mCurrentFragment);
+
+                if (fragment == null) {
+                    fragment = ContentFragment.newInstance(title);
+                    transaction.add(R.id.content_container, fragment, title);
+                } else {
+                    transaction.show(fragment);
+                }
+                transaction.commit();
+
+                mCurrentFragment = fragment;
+                mTitle = title;
+                mToolbar.setTitle(mTitle);
+                mDrawerLayout.closeDrawer(Gravity.LEFT);
+
+
+            }
+        });
+
+    }
+
+    private void restoreTitle(Bundle savedInstanceState) {
+        if (savedInstanceState != null)
+            mTitle = savedInstanceState.getString(KEY_TITLLE);
+
+        if (TextUtils.isEmpty(mTitle)) {
+            mTitle = "none";
+        }
+
+        mToolbar.setTitle(mTitle);
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(KEY_TITLLE, mTitle);
+    }
+
+    private void initToolBar() {
+
+        Toolbar toolbar = mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        // App Logo
+        // toolbar.setLogo(R.mipmap.ic_launcher);
+        // Title
+        toolbar.setTitle("Toolbar Title");
+        // Sub Title
+        // toolbar.setSubtitle("Sub title");
+
+//        toolbar.setTitleTextAppearance();
+
+
+        setSupportActionBar(toolbar);
+
+
+        //Navigation Icon
+//        toolbar.setNavigationIcon(R.drawable.ic_toc_white_24dp);
+        /*
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                return false;
+            }
+        });*/
+
+    }
+
+    private void initViews() {
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        mActionBarDrawerToggle = new ActionBarDrawerToggle(this,
+                mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mActionBarDrawerToggle.syncState();
+        mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
+
+
     }
 }
