@@ -31,9 +31,9 @@ public class LeftMenuAdapter extends ArrayAdapter<MenuItem> {
         title.setText(getItem(position).text);
         convertView.setBackgroundColor(Color.TRANSPARENT);
 
-//        if (position == mSelected) {
-//            convertView.setBackgroundColor(getContext().getResources().getColor(R.color.state_menu_item_selected));
-//        }
+        if (position == mSelected) {
+            convertView.setBackgroundColor(0xB6B6B6);
+        }
         return convertView;
     }
 
