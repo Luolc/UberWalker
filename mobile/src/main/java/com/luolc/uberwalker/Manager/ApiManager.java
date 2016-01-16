@@ -25,7 +25,7 @@ public class ApiManager {
     public static final int CODE_SUCCESS = 0;
 
     public static String PROTOCOL = "http";
-    public static String DOMAIN = "";
+    public static String DOMAIN = "193.168.4.174:5001";
 
     private static RequestQueue mReqQueue;
     private static ApiManager apiManager;

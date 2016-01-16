@@ -1,6 +1,9 @@
 package com.luolc.uberwalker;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -10,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Gravity;
+
+import com.luolc.uberwalker.Manager.UserManager;
 
 import java.util.List;
 
@@ -25,12 +30,21 @@ public class MainActivity extends AppCompatActivity {
 
     private String mTitle;
 
+    private UserManager mUserManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mUserManager = new UserManager(this);
+
         initToolBar();
+
+        // 授权WebView
+        if (!isUserExist()) {
+            startActivity(new Intent(this, AuthActivity.class));
+        }
         initViews();
 
         //恢复title
@@ -137,5 +151,12 @@ public class MainActivity extends AppCompatActivity {
                 mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mActionBarDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
+    }
+
+    private boolean isUserExist() {
+        if ("".equals(mUserManager.getUid())) {
+            return false;
+        }
+        return true;
     }
 }
