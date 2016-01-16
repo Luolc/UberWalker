@@ -44,6 +44,8 @@ public class ApiManager {
         return apiManager;
     }
 
+
+
     /**
      * 构造接口地址
      * @param method 方法名
