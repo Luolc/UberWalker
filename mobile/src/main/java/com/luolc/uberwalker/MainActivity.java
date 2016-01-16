@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             mTitle = savedInstanceState.getString(KEY_TITLLE);
 
         if (TextUtils.isEmpty(mTitle)) {
-            mTitle = "none";
+            mTitle = "Uber Walker";
         }
 
         mToolbar.setTitle(mTitle);
@@ -116,21 +116,10 @@ public class MainActivity extends AppCompatActivity {
     private void initToolBar() {
 
         Toolbar toolbar = mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        // App Logo
-        // toolbar.setLogo(R.mipmap.ic_launcher);
         // Title
         toolbar.setTitle("Toolbar Title");
-        // Sub Title
-        // toolbar.setSubtitle("Sub title");
-
-//        toolbar.setTitleTextAppearance();
-
-
         setSupportActionBar(toolbar);
 
-
-        //Navigation Icon
-//        toolbar.setNavigationIcon(R.drawable.ic_toc_white_24dp);
         /*
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -138,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });*/
-
     }
 
     private void initViews() {
