@@ -6,7 +6,9 @@
     <ListView android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="8dp"
         android:drawSelectorOnTop="false"
-        android:footerDividersEnabled="false"/>
+        android:footerDividersEnabled="false"
+        android:divider="#FFFFFF"/>
 
 </LinearLayout>
