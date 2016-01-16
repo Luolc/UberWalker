@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private LeftMenuFragment mLeftMenuFragment;
-    private ContentFragment mCurrentFragment;
+    private Fragment mCurrentFragment;
 
     private String mTitle;
 
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         mCurrentFragment = (ContentFragment) fm.findFragmentByTag(mTitle);
 
         if (mCurrentFragment == null) {
-            mCurrentFragment = ContentFragment.newInstance(mTitle);
+            mCurrentFragment = MainFragment.newInstance(mTitle);
             fm.beginTransaction().add(R.id.content_container, mCurrentFragment, mTitle).commit();
         }
 
