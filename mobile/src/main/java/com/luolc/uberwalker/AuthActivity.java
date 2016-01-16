@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.avos.avoscloud.AVInstallation;
+import com.avos.avoscloud.AVObject;
 import com.luolc.uberwalker.Manager.ApiManager;
 
 import org.json.JSONException;
@@ -38,6 +41,13 @@ public class AuthActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = pref.edit();
             editor.putString("uid", uid);
             editor.apply();
+
+            AVObject testObject = new AVObject("UberAuth");
+            testObject.put("installtionId", AVInstallation.getCurrentInstallation().getInstallationId());
+            testObject.put("uid", uid);
+            testObject.saveInBackground();
+
+            Log.v("[UID]", uid);
             finish();
         }
     }
@@ -71,6 +81,7 @@ public class AuthActivity extends AppCompatActivity {
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         setContentView(R.layout.activity_auth);
         webview = (WebView) findViewById(R.id.webView);
+        webview.clearCache(true);
 
         webview.setWebViewClient(new WebViewClient());
         WebSettings webSettings = webview.getSettings();

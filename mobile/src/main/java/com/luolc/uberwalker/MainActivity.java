@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 
 import com.luolc.uberwalker.Manager.UserManager;
@@ -43,13 +44,25 @@ public class MainActivity extends AppCompatActivity {
 
         initToolBar();
 
-        AVOSCloud.initialize(this, "do4K7UeJcyGgwQ5mdeW4ep07-gzGzoHsz", "5bv5WWc0LuplJbEoadg4TmLH");
         // AVAnalytics.trackAppOpened(getIntent());
 
-        AVInstallation.getCurrentInstallation().saveInBackground();
         PushService.setDefaultPushCallback(this, MainActivity.class);
 
-        // 授权WebView
+        AVInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
+            public void done(AVException e) {
+                if (e == null) {
+                    // 保存成功
+                    String installationId = AVInstallation.getCurrentInstallation().getInstallationId();
+                    Log.v(TAG, installationId);
+                    // 关联  installationId 到用户表等操作……
+                } else {
+                    // 保存失败，输出错误信息
+                }
+            }
+        });
+
+
+               // 授权WebView
         if (!isUserExist()) {
             startActivity(new Intent(this, AuthActivity.class));
         }
@@ -89,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
             public void menuItemSelected(String title) {
 
                 FragmentManager fm = getSupportFragmentManager();
-                ContentFragment fragment = (ContentFragment) getSupportFragmentManager().findFragmentByTag(title);
+                Fragment fragment = getSupportFragmentManager().findFragmentByTag(title);
                 if (fragment == mCurrentFragment) {
                     mDrawerLayout.closeDrawer(Gravity.LEFT);
                     return;
@@ -99,7 +112,10 @@ public class MainActivity extends AppCompatActivity {
                 transaction.hide(mCurrentFragment);
 
                 if (fragment == null) {
-                    fragment = ContentFragment.newInstance(title);
+                    if(title == "修改预算")
+                        fragment = BudgetFragment.newInstance(title);
+                    else
+                        fragment = ContentFragment.newInstance(title);
                     transaction.add(R.id.content_container, fragment, title);
                 } else {
                     transaction.show(fragment);

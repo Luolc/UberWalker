@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.avos.avoscloud.AVOSCloud;
 import com.google.gson.Gson;
 import com.luolc.uberwalker.Manager.ApiManager;
 
@@ -23,6 +24,8 @@ public class AppContext extends Application {
         super.onCreate();
 
         pref = PreferenceManager.getDefaultSharedPreferences(this);
+        AVOSCloud.initialize(this, "do4K7UeJcyGgwQ5mdeW4ep07-gzGzoHsz", "5bv5WWc0LuplJbEoadg4TmLH");
+
         // 初始化ApiManager
         ApiManager.newInstance(this);
 
