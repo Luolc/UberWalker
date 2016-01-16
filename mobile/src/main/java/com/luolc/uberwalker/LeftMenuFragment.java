@@ -38,7 +38,7 @@ public class LeftMenuFragment extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fregment_left_menu, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_left_menu, container, false);
         return rootView;
     }
 
