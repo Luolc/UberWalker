@@ -138,6 +138,8 @@ public class MainActivity extends AppCompatActivity {
                         fragment = BudgetFragment.newInstance(title);
                     else if(title == "修改地址")
                         fragment = LocationFragment.newInstance(title);
+                    else if(title == "完成度")
+                        fragment = StatusFragment.newInstance(title);
                     else
                         fragment = ContentFragment.newInstance(title);
                     transaction.add(R.id.content_container, fragment, title);
