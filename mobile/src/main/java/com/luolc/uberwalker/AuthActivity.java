@@ -89,7 +89,8 @@ public class AuthActivity extends AppCompatActivity {
         webSettings.setAppCacheEnabled(false);
 
         webview.addJavascriptInterface(new WebAppConnector(this), "Android");
-        getAuthURL();
+        //getAuthURL();
+        webview.loadUrl("https://pkurider.leanapp.cn/login");
     }
 }
 ;
