@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html>
+<head lang="zh-CN">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="address=no">
+
+  <link rel="stylesheet" href="material.min.css">
+  <script src="material.min.js"></script>
+  <script src="jquery-2.2.0.min.js"></script>
+
+    <script type="text/javascript" src="http://3gimg.qq.com/lightmap/components/locationPicker2/js/main-62c2e3b971.js"></script>
+    <title>locationPicker Components Demo - iframe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body, html{
+            overflow: hidden;
+        }
+    </style>
+    <script>
+            function adaptHeight() {
+                var winH = $(window).height();
+                var bodyH = document.documentElement.clientHeight;
+                if (winH > bodyH) {
+                    window.parent.document.getElementById("iframe").height=winH;
+                } else {
+                    window.parent.document.getElementById("iframe").height=bodyH;
+                }
+            }
+
+        //iframe页面调用方法
+        $(function(){
+
+            adaptHeight();//动态适配高度
+
+            window.onresize = function() { //横屏、QQ浏览器变全屏模式下的时候，需要重新计算高度
+                adaptHeight();
+            }
+
+            window.addEventListener('message', function(event) {
+		var point_name = $("#iframe").attr("point_name");
+                var loc = event.data;
+		document.getElementById('iframe').style.display = 'none'; adaptHeight();
+		//$("#" + point_name).attr("value", loc.poiname);
+    $("textarea#" + point_name).val(loc.poiname)
+		$("#" + point_name + "_lat").attr("value", loc.latlng.lat);
+		$("#" + point_name + "_lng").attr("value", loc.latlng.lng);
+            }, false);
+
+        });
+    </script>
+</head>
+<body>
+    <!-- 通过 iframe 嵌入地图选点组件 -->
+
+    <iframe id="iframe" width="100%" frameborder=0 scrolling="no"
+        src="http://3gimg.qq.com/lightmap/components/locationPicker2/index.html?search=1&type=1&key=S4MBZ-53BHP-TEHDJ-VGU4E-F2HUJ-PQFU7&referer=myapp"
+	style="display: none;"
+	point_name="">
+    </iframe>
+    <form id="frm_location">
+      <div class="mdl-layout mdl-js-layout">
+<main class="mdl-layout__content">
+
+  <div class="mdl-textfield mdl-js-textfield">
+    <textarea readonly class="mdl-textfield__input" type="text" rows= "2" id="start_point" name="start_point" >请选择家的位置</textarea>
+  </div>
+    <input type="hidden" id="start_point_lat" name="start_point_lat" value=""/>
+    <input type="hidden" id="start_point_lng" name="start_point_lng" value=""/>
+  <button type="button" onclick="$('#iframe').attr('point_name', 'start_point'); document.getElementById('iframe').style.display = 'block'; adaptHeight();"
+  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="display:block;margin: -5px auto; width: 150px">
+  选择家
+  </button>
+
+
+  <div class="mdl-textfield mdl-js-textfield">
+    <input type="hidden" id="uid" name="uid" value=""/>
+    <textarea readonly class="mdl-textfield__input" type="text" rows= "2" id="end_point" name="end_point" >请选择公司的位置</textarea>
+  </div>
+    <input type="hidden" id="end_point_lat" name="end_point_lat" value=""/>
+    <input type="hidden" id="end_point_lng" name="end_point_lng" value=""/>
+  <button type="button" onclick="$('#iframe').attr('point_name', 'end_point'); document.getElementById('iframe').style.display = 'block'; adaptHeight();"
+  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="display:block;margin: -5px auto; width: 150px">
+
+      选择公司
+    </button>
+  <br>
+  <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+    提交</button>
+
+  </form>
+</main></div>
+
+<script>
+$('#uid').attr("value", Android.getUid());
+</script>
+
+
+<script>
+$(function() {
+    var $form = $('#frm_location');
+
+
+    $form.find('button[type="submit"]').click(function() {
+    work = {'uid':$('#uid').attr("value"), 'name': 'work',
+            'latitude': parseFloat($('#end_point_lat').attr('value')),
+            'longitude': parseFloat($('#end_point_lng').attr('value'))}
+    home = {'uid':$('#uid').attr("value"), 'name': 'home',
+            'latitude': parseFloat($('#start_point_lat').attr('value')),
+            'longitude': parseFloat($('#start_point_lng').attr('value'))}
+
+    $.ajax({
+         /* async: false,  this is deprecated*/
+          type: "POST",
+          dataType: "json",
+          contentType: "application/json",
+          url: "https://pkurider.leanapp.cn/place",
+          data: JSON.stringify(work)
+    });
+    $.ajax({
+         /* async: false,  this is deprecated*/
+          type: "POST",
+          dataType: "json",
+          contentType: "application/json",
+          url: "https://pkurider.leanapp.cn/place",
+          data: JSON.stringify(home),
+          complete: function() {
+            alert("修改成功！");
+          }
+    });
+        return false;
+    });
+});
+</script>
+</body>
+</html>

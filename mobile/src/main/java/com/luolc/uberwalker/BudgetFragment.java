@@ -70,7 +70,7 @@ public class BudgetFragment extends Fragment {
         webSettings.setAppCacheEnabled(false);
         webview.addJavascriptInterface(new WebAppConnector(getActivity()), "Android");
 
-        webview.loadUrl("http://193.168.4.174:5001/plan.html");
+        webview.loadUrl("file:///android_asset/plan.html");
         return rootView;
     }
 }

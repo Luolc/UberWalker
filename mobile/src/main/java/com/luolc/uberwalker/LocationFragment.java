@@ -66,7 +66,7 @@ public class LocationFragment extends BudgetFragment {
         webSettings.setAllowUniversalAccessFromFileURLs(true);
         webview.addJavascriptInterface(new WebAppConnector(getActivity()), "Android");
 
-        webview.loadUrl("http://193.168.4.174:5001/location.html");
+        webview.loadUrl("file:///android_asset/location.html");
         return rootView;
     }
 }

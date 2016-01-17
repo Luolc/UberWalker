@@ -1,0 +1,87 @@
+<html>
+<head>
+  <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+  <link rel="stylesheet" href="material.min.css">
+  <script src="material.min.js"></script>
+  <script src="jquery.min.js"></script>
+</head>
+<body>
+<div class="mdl-layout mdl-js-layout" style="align-self: center">
+<main class="mdl-layout__content">
+<form id="frm_budget" style="margin: 40px;">
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 100%;">
+    <input type="hidden" id="uid" name="uid" value=""/>
+    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*" id="budget_money" name="budget_money" value="" autocomplete="off">
+    <label class="mdl-textfield__label" for="budget_money">预算（元）</label>
+    <span class="mdl-textfield__error">请输入数字！</span>
+  </div>
+  <br>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 100%;">
+    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*" id="budget_cal" name="budget_cal" value="" autocomplete="off">
+    <label class="mdl-textfield__label" for="budget_money">卡路里</label>
+    <span class="mdl-textfield__error">请输入数字！</span>
+  </div>
+  <br/><br/>
+  <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="display:block;margin: -5px auto; width: 150px">
+  提交
+  </button>
+</form>
+<div style="display: block">
+</div>
+
+<div id="success_block" class="mdl-card mdl-shadow--4dp" style="width: 100%; display: none">
+  <div class="mdl-card__title">
+    <h2 class="mdl-card__title-text">提交成功</h2>
+  </div>
+  <div id="success_tips" class="mdl-card__supporting-text">
+  </div>
+</div>
+
+</main></div>
+<script>
+$('#uid').attr("value", Android.getUid());
+</script>
+<script>
+
+$.get("https://pkurider.leanapp.cn/plan",
+  {"uid": $('#uid').attr("value")},
+  function(r) {
+              r = JSON.parse(r);
+              $('#budget_money').val(r['budget_money']);
+              $('#budget_cal').val(r['budget_cal']);
+            }
+          );
+
+</script>
+<script>
+$(function() {
+
+    var $form = $('#frm_budget');
+
+    $form.find('button[type="submit"]').click(function() {
+      data = {'budget_money': parseInt($('#budget_money').val()),
+              'uid' : $('#uid').attr("value"),
+              'budget_cal': parseInt($('#budget_cal').val())}
+        $.ajax({
+           /* async: false,  this is deprecated*/
+            type: "POST",
+            url: "https://pkurider.leanapp.cn/plan",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+	}).complete(function(jqXHR, textStatus) {
+            if(textStatus != "error") {
+              alert("提交成功！"); //TODO
+              r = JSON.parse(response);
+              document.getElementById('success_block').style.display = 'block';
+              document.getElementById('success_tips').innerHTML =
+              "提交成功！本月已用预算" + r['curr_money'] +
+              "元，预计还能乘车5次；剩余" + r['curr_cal'] + "卡路里，还需要步行100km。"
+            }
+        }); /* prevent default when submit button clicked*/
+        return false;
+
+    });
+});
+</script>
+</body>
+</html>
