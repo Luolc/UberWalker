@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -57,7 +58,7 @@ public class LocationFragment extends BudgetFragment {
         webview = (WebView) rootView.findViewById(R.id.webView);
         webview.clearCache(true);
 
-        webview.setWebViewClient(new WebViewClient());
+        webview.setWebChromeClient(new WebChromeClient());
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setAppCacheEnabled(false);
