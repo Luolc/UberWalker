@@ -21,9 +21,11 @@ public class UberReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        LogUtil.log.d(TAG, "Get Broadcat");
+        LogUtil.log.v("Get Broadcat");
         try {
             String action = intent.getAction();
+            if(intent.getExtras() == null) // 不是想要的消息
+                return;
             String channel = intent.getExtras().getString("com.avos.avoscloud.Channel");
             //获取消息内容，JSON格式
             JSONObject json = new JSONObject(intent.getExtras().getString("com.avos.avoscloud.Data"));
