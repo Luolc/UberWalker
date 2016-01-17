@@ -18,8 +18,11 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.widget.TextView;
 
 import com.luolc.uberwalker.Manager.UserManager;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -32,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private LeftMenuFragment mLeftMenuFragment;
     private Fragment mCurrentFragment;
-
+    private TextView tvTitle;
     private String mTitle;
 
     private UserManager mUserManager;
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         mUserManager = new UserManager(this);
 
+        tvTitle = (TextView) findViewById(R.id.title);
         initToolBar();
 
         // AVAnalytics.trackAppOpened(getIntent());
@@ -144,7 +148,8 @@ public class MainActivity extends AppCompatActivity {
 
                 mCurrentFragment = fragment;
                 mTitle = title;
-                mToolbar.setTitle(mTitle);
+                mToolbar.setTitle("");
+                setTitle(mTitle);
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
 
 
@@ -158,10 +163,11 @@ public class MainActivity extends AppCompatActivity {
             mTitle = savedInstanceState.getString(KEY_TITLLE);
 
         if (TextUtils.isEmpty(mTitle)) {
-            mTitle = "Uber Walker";
+            mTitle = "UWalker";
         }
 
-        mToolbar.setTitle(mTitle);
+        mToolbar.setTitle("");
+        setTitle(mTitle);
     }
 
 
@@ -175,7 +181,8 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = mToolbar = (Toolbar) findViewById(R.id.toolbar);
         // Title
-        toolbar.setTitle("Toolbar Title");
+        toolbar.setTitle("");
+        setTitle("UWalker");
         setSupportActionBar(toolbar);
 
         /*
@@ -203,5 +210,9 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    private void setTitle(String title) {
+        tvTitle.setText(title);
     }
 }

@@ -13,7 +13,7 @@ import android.widget.ListView;
  */
 public class LeftMenuFragment extends ListFragment {
 
-    private static final String itemsArray[] = {"Uber Walker", "修改地址", "修改预算", "完成度", "设置", "注销"};
+    private static final String itemsArray[] = {"UWalker", "修改地址", "修改预算", "完成度", "设置", "注销"};
 
     private static final int SIZE_MENU_ITEM = 6;
 
