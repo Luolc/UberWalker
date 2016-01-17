@@ -1,11 +1,13 @@
 package com.luolc.uberwalker;
 
 import android.content.Context;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -46,6 +48,11 @@ public class ScheduleListAdapter extends BaseAdapter {
     }
 
     @Override
+    public boolean isEnabled(int position) {
+        return false;
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
@@ -53,6 +60,10 @@ public class ScheduleListAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
 
             viewHolder.imWay = (ImageView) convertView.findViewById(R.id.im_travel_way);
+            viewHolder.tvContentTest = (TextView) convertView.findViewById(R.id.tv_content_test);
+            viewHolder.layoutContent = (RelativeLayout) convertView.findViewById(R.id.layout_content);
+            viewHolder.tvLabel = (TextView) convertView.findViewById(R.id.tv_label);
+            viewHolder.tvTime = (TextView) convertView.findViewById(R.id.tv_time);
 
             convertView.setTag(viewHolder);
         } else {
@@ -60,12 +71,27 @@ public class ScheduleListAdapter extends BaseAdapter {
         }
 
         ScheduleItemEntity item = mItems.get(position);
-        viewHolder.imWay.setImageResource(item.getImWayRes());
+
+        if (item.getLabel() != null) {
+            viewHolder.tvLabel.setText(item.getLabel());
+            viewHolder.tvLabel.setVisibility(View.VISIBLE);
+            viewHolder.layoutContent.setVisibility(View.GONE);
+        } else {
+            viewHolder.imWay.setImageResource(item.getImWayRes());
+            viewHolder.tvContentTest.setText(item.getContentTest());
+            viewHolder.tvTime.setText(item.getTime());
+            viewHolder.tvLabel.setVisibility(View.GONE);
+            viewHolder.layoutContent.setVisibility(View.VISIBLE);
+        }
 
         return convertView;
     }
 
     static class ViewHolder {
         ImageView imWay;
+        TextView tvContentTest;
+        RelativeLayout layoutContent;
+        TextView tvLabel;
+        TextView tvTime;
     }
 }

@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.luolc.uberwalker.Manager.TimeManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,8 +52,16 @@ public class MainFragment extends Fragment {
 
         for (int i = 0; i < 10; ++i) {
             ScheduleItemEntity item = new ScheduleItemEntity();
-            if (i % 2 == 0) item.setImWayRes(R.drawable.way_walk);
-            else item.setImWayRes(R.drawable.way_uber);
+            item.setTime(TimeManager.format(System.currentTimeMillis()));
+            if (i % 3 == 1) {
+                item.setImWayRes(R.drawable.car_48);
+                item.setContentTest("从 家 载Uber 至 公司");
+            } else if (i % 3 == 2) {
+                item.setImWayRes(R.drawable.man_48);
+                item.setContentTest("从 公司 步行 至 家");
+            } else {
+                item.setLabel("今日");
+            }
             schedules.add(item);
         }
         lvSchedule = (ListView) rootView.findViewById(R.id.lv_schedule);
