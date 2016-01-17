@@ -70,10 +70,11 @@
 <main class="mdl-layout__content">
 
   <div class="mdl-textfield mdl-js-textfield">
-    <textarea readonly class="mdl-textfield__input" type="text" rows= "2" id="start_point" name="start_point" >请选择家的位置</textarea>
+    <textarea readonly class="mdl-textfield__input" type="text" rows= "2" id="start_point" name="start_point" style="margin-left: 10%" >请选择家的位置</textarea>
   </div>
     <input type="hidden" id="start_point_lat" name="start_point_lat" value=""/>
     <input type="hidden" id="start_point_lng" name="start_point_lng" value=""/>
+    <br>
   <button type="button" onclick="$('#iframe').attr('point_name', 'start_point'); document.getElementById('iframe').style.display = 'block'; adaptHeight();"
   class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="display:block;margin: -5px auto; width: 150px">
   选择家
@@ -82,17 +83,18 @@
 
   <div class="mdl-textfield mdl-js-textfield">
     <input type="hidden" id="uid" name="uid" value=""/>
-    <textarea readonly class="mdl-textfield__input" type="text" rows= "2" id="end_point" name="end_point" >请选择公司的位置</textarea>
+    <textarea readonly class="mdl-textfield__input" type="text" rows= "2" id="end_point" name="end_point" style="margin-left: 10%">请选择公司的位置</textarea>
   </div>
     <input type="hidden" id="end_point_lat" name="end_point_lat" value=""/>
     <input type="hidden" id="end_point_lng" name="end_point_lng" value=""/>
+    <br>
   <button type="button" onclick="$('#iframe').attr('point_name', 'end_point'); document.getElementById('iframe').style.display = 'block'; adaptHeight();"
   class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="display:block;margin: -5px auto; width: 150px">
 
       选择公司
     </button>
   <br>
-  <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+  <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button" style="margin-left: 35%">
     提交</button>
 
   </form>
