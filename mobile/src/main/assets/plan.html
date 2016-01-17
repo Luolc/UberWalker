@@ -10,7 +10,7 @@
 <main class="mdl-layout__content">
 <form id="frm_budget" style="margin: 40px;">
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 100%;">
-    <input type="hidden" id="uid" name="uid" value=""/>
+    <input type="hidden" id="uid" name="uid" value="2222"/>
     <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*" id="budget_money" name="budget_money" value="" autocomplete="off">
     <label class="mdl-textfield__label" for="budget_money">预算（元）</label>
     <span class="mdl-textfield__error">请输入数字！</span>
@@ -46,7 +46,6 @@ $('#uid').attr("value", Android.getUid());
 $.get("https://pkurider.leanapp.cn/plan",
   {"uid": $('#uid').attr("value")},
   function(r) {
-              r = JSON.parse(r);
               $('#budget_money').val(r['budget_money']);
               $('#budget_cal').val(r['budget_cal']);
             }
@@ -68,15 +67,13 @@ $(function() {
             url: "https://pkurider.leanapp.cn/plan",
             data: JSON.stringify(data),
             contentType: "application/json",
-	}).complete(function(jqXHR, textStatus) {
-            if(textStatus != "error") {
-              alert("提交成功！"); //TODO
-              r = JSON.parse(response);
+	}).success(function(r) {
               document.getElementById('success_block').style.display = 'block';
               document.getElementById('success_tips').innerHTML =
               "提交成功！本月已用预算" + r['curr_money'] +
-              "元，预计还能乘车5次；剩余" + r['curr_cal'] + "卡路里，还需要步行100km。"
-            }
+              "元，还剩" + (data['budget_money'] - r['curr_money']) + "元；已经使用"
+              + r['curr_cal'] +  "卡路里。还要消耗" +
+              (data['budget_cal'] - r['curr_cal']) + "卡路里。"
         }); /* prevent default when submit button clicked*/
         return false;
 
