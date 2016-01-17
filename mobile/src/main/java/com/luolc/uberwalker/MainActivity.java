@@ -132,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
                 if (fragment == null) {
                     if(title == "修改预算")
                         fragment = BudgetFragment.newInstance(title);
+                    else if(title == "修改地址")
+                        fragment = LocationFragment.newInstance(title);
                     else
                         fragment = ContentFragment.newInstance(title);
                     transaction.add(R.id.content_container, fragment, title);
