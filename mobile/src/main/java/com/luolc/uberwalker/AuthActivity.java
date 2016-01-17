@@ -43,11 +43,12 @@ public class AuthActivity extends AppCompatActivity {
             editor.apply();
 
             AVObject testObject = new AVObject("UberAuth");
-            testObject.put("installtionId", AVInstallation.getCurrentInstallation().getInstallationId());
+            testObject.put("installationId", AVInstallation.getCurrentInstallation().getInstallationId());
             testObject.put("uid", uid);
             testObject.saveInBackground();
 
             Log.v("[UID]", uid);
+            Toast.makeText(mContext, "登录成功！", Toast.LENGTH_SHORT).show();
             finish();
         }
     }
