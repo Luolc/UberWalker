@@ -19,4 +19,8 @@ public class UserManager {
     public String getUid() {
         return mContext.getUid();
     }
+
+    public void clearInfo() {
+        mContext.clear();
+    }
 }

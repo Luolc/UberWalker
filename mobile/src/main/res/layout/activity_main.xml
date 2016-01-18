@@ -31,6 +31,18 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <!--<Button-->
+        <!--android:id="@+id/start_wearable_activity"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:onClick="onStartWearableActivityClick"-->
+        <!--android:text="test"-->
+        <!--android:enabled="false"-->
+        <!--android:layout_below="@+id/divider"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="10dp" />-->
+
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"

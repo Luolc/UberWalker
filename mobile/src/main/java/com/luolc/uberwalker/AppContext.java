@@ -36,6 +36,10 @@ public class AppContext extends Application {
         return uid;
     }
 
+    public void clear() {
+        pref.edit().remove("uid").commit();
+    }
+
     private void initUid() {
         uid = pref.getString("uid", "");
     }

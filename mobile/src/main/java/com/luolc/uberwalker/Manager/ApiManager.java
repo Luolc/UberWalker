@@ -120,7 +120,5 @@ public class ApiManager {
         }
     }
 
-    public void getOAuthUrl(final Callback<String> callback) {
 
-    }
 }

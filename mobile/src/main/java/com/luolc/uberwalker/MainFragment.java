@@ -50,17 +50,28 @@ public class MainFragment extends Fragment {
             }
         });
 
-        for (int i = 0; i < 10; ++i) {
+        for (int i = 0; i < 9; ++i) {
             ScheduleItemEntity item = new ScheduleItemEntity();
-            item.setTime(TimeManager.format(System.currentTimeMillis()));
-            if (i % 3 == 1) {
+            if (i % 3 == 1 && i < 3) {
                 item.setImWayRes(R.drawable.car_48);
                 item.setContentTest("从 家 载Uber 至 公司");
-            } else if (i % 3 == 2) {
+                item.setTime("08:05");
+            } else if (i % 3 == 1 && i >= 3) {
+                item.setImWayRes(R.drawable.car_48);
+                item.setContentTest("从 家 载Uber 至 公司");
+                item.setTime("08:05");
+            } else if (i % 3 == 2 && i <= 2) {
+                item.setImWayRes(R.drawable.car_48);
+                item.setContentTest("从 公司 载Uber 至 家");
+                item.setTime("19:33");
+            } else if (i % 3 == 2 && i > 2) {
                 item.setImWayRes(R.drawable.man_48);
                 item.setContentTest("从 公司 步行 至 家");
+                item.setTime("17:30");
             } else {
-                item.setLabel("今日");
+                if (i == 0) item.setLabel("今日");
+                if (i == 3) item.setLabel("明日");
+                else if (i == 6) item.setLabel("两天后");
             }
             schedules.add(item);
         }

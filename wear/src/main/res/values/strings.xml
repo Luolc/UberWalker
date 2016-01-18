@@ -1,5 +1,5 @@
-<resources>
-    <string name="app_name">UberWalker</string>
-    <string name="hello_round">Hello Round World!</string>
-    <string name="hello_square">Hello Square World!</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">UWalker Remainder</string>
+    <string name="intro">Waiting for data to arrive\u2026</string>
 </resources>
